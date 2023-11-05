@@ -13,7 +13,7 @@ let wordList = [];
 
 const file = await open(new URL('./words.txt', import.meta.url));
 for await (const line of file.readLines()) {
-    wordList.push(line);
+    wordList.push(line.toLowerCase());
 }
 
 const WORD_COUNT = 15;
@@ -43,14 +43,7 @@ const printLine = (cursor) => {
     }
     console.clear();
     console.log(line);
-    // console.log(corrects);
 }
-
-// console.log(currentLine.join(' '));
-// console.log(currentLine[0]);
-// for (let i = 0; i < 10; i++) {
-//     console.log('?:' + currentLine[0].charAt(i));
-// }
 
 let startTime;
 
