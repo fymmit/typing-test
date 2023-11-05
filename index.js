@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import colors from 'colors';
 import { open } from 'fs/promises';
 import readline from 'readline';
@@ -9,7 +11,7 @@ if (process.stdin.setRawMode != null) {
 
 let wordList = [];
 
-const file = await open('./words.txt');
+const file = await open(new URL('./words.txt', import.meta.url));
 for await (const line of file.readLines()) {
     wordList.push(line);
 }
