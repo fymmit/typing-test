@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import colors from 'colors';
-import { open } from 'fs/promises';
+import { readFile } from 'fs/promises';
 import readline from 'readline';
 
 readline.emitKeypressEvents(process.stdin);
@@ -9,12 +9,9 @@ if (process.stdin.setRawMode != null) {
     process.stdin.setRawMode(true);
 }
 
-let wordList = [];
+const file = await readFile(new URL('./words.txt', import.meta.url), 'utf-8');
 
-const file = await open(new URL('./words.txt', import.meta.url));
-for await (const line of file.readLines()) {
-    wordList.push(line.toLowerCase());
-}
+const wordList = file.split('\n');
 
 const WORD_COUNT = 15;
 
@@ -22,10 +19,12 @@ let words = [];
 const maxValue = wordList.length - 1;
 for (let i = 0; i < WORD_COUNT; i++) {
     const random = Math.floor(Math.random() * maxValue);
-    words.push(wordList[random]);
+    const word = wordList[random];
+    console.log(word);
+    words.push(word);
 }
 
-const letters = words.join(' ').split('');
+const letters = words.join(' ').split('').filter(l => l !== '\r');
 const corrects = [];
 
 const printLine = (cursor) => {
